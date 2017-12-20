@@ -25,7 +25,7 @@ The library returns a promise.
 
 ```js
 import classifier from "flexion-geometry-classifier";
-classifier(sides)
+classifier([2.2, 2.2, 2.2])
   .then(success =>
     console.log(
       `you have returned a ${success.geometryLabel} of type ${success.type}`
@@ -49,3 +49,5 @@ The webapp was an afterthought last night, more a proof of concept for the unive
 `npm run flow` runs flow
 
 `npm run eslint` runs eslint
+
+`npm run test` will run a suite of e2e tests for the cli i wrote when it was originally just a CLI. yes, no unit tests or e2e web tests. oh well!

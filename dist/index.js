@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateGeometry = validateGeometry;
+exports.detectGeometry = detectGeometry;
 exports.classifyGeometry = classifyGeometry;
 exports.default = _default;
 
@@ -11,7 +11,7 @@ var geometries = _interopRequireWildcard(require("./lib/geometries"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-function validateGeometry(sides) {
+function detectGeometry(sides) {
   return new Promise((resolve, reject) => {
     if (!sides || !sides.length || sides.length < 2) {
       reject("not enough sides for a valid geometry!");
@@ -61,6 +61,6 @@ function classifyGeometry({
 
 function _default(sides) {
   return new Promise((resolve, reject) => {
-    return validateGeometry(sides).catch(err => reject(err)).then((...args) => classifyGeometry(...args));
+    return detectGeometry(sides).catch(err => reject(err)).then((...args) => classifyGeometry(...args));
   });
 }

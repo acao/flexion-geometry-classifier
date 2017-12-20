@@ -9,10 +9,10 @@ type Geometry = {
 
 type GeomType = {
   type: string,
-  validation: Function
+  validate: Function
 };
 
-type ValidationResult = {
+type DetectionResult = {
   geometryLabel: string,
   sides: Array<number>
 };
@@ -22,9 +22,7 @@ type ClassificationResult = {
   type: string
 };
 
-export function validateGeometry(
-  sides: Array<string>
-): Promise<ValidationResult> {
+export function detectGeometry(sides: Array<number>): Promise<DetectionResult> {
   return new Promise((resolve, reject) => {
     if (!sides || !sides.length || sides.length < 2) {
       reject("not enough sides for a valid geometry!");
@@ -50,7 +48,7 @@ export function validateGeometry(
 export function classifyGeometry({
   geometryLabel,
   sides
-}: validationResult): Promise<ClassificationResult> {
+}: DetectionResult): Promise<ClassificationResult> {
   const geom: Geometry = geometries[geometryLabel];
   return new Promise((resolve, reject) => {
     if (!geom.isValid(...sides)) {
@@ -67,9 +65,9 @@ export function classifyGeometry({
   });
 }
 
-export default function(sides: Array<string>): Promise<ClassificationResult> {
+export default function(sides: Array<number>): Promise<ClassificationResult> {
   return new Promise((resolve, reject: Function) => {
-    return validateGeometry(sides)
+    return detectGeometry(sides)
       .catch(err => reject(err))
       .then((...args) => classifyGeometry(...args));
   });

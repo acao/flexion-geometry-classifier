@@ -23,4 +23,4 @@ const onErrorExit = message => {
   process.exit(1);
 };
 
-(0, _.validateGeometry)(sides).then((...args) => (0, _.classifyGeometry)(...args)).then(onSuccessExit).catch(onErrorExit);
+(0, _.detectGeometry)(sides).then((...args) => (0, _.classifyGeometry)(...args)).then(onSuccessExit).catch(onErrorExit);

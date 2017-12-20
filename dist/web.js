@@ -92,7 +92,7 @@ function classifyGeometryWeb() {
   sides = [].map.call(sides, function (el) {
     return parseFloat(el.value && el.value.trim());
   });
-  return (0, _.validateGeometry)(sides).then(function (args) {
+  return (0, _.detectGeometry)(sides).then(function (args) {
     return (0, _.classifyGeometry)(args);
   }).then(function (args) {
     return handleSuccess(args);
@@ -151,7 +151,7 @@ function handleError(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateGeometry = validateGeometry;
+exports.detectGeometry = detectGeometry;
 exports.classifyGeometry = classifyGeometry;
 exports.default = _default;
 
@@ -161,7 +161,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function validateGeometry(sides) {
+function detectGeometry(sides) {
   return new Promise(function (resolve, reject) {
     if (!sides || !sides.length || sides.length < 2) {
       reject("not enough sides for a valid geometry!");
@@ -210,7 +210,7 @@ function classifyGeometry(_ref) {
 
 function _default(sides) {
   return new Promise(function (resolve, reject) {
-    return validateGeometry(sides).catch(function (err) {
+    return detectGeometry(sides).catch(function (err) {
       return reject(err);
     }).then(function () {
       return classifyGeometry.apply(void 0, arguments);

@@ -1,4 +1,4 @@
-import { validateGeometry, classifyGeometry } from "./";
+import { detectGeometry, classifyGeometry } from "./";
 import { logger } from "./lib/utils";
 
 const resultsWrapper = document.getElementById("output-wrapper");
@@ -7,7 +7,7 @@ export function classifyGeometryWeb() {
   console.time("completed in");
   let sides = document.querySelectorAll("#numerical-input input");
   sides = [].map.call(sides, el => parseFloat(el.value && el.value.trim()));
-  return validateGeometry(sides)
+  return detectGeometry(sides)
     .then(args => classifyGeometry(args))
     .then(args => handleSuccess(args))
     .catch(message => handleError(message));

@@ -2,7 +2,7 @@
 
 import { logger } from "./lib/utils";
 
-import { validateGeometry, classifyGeometry } from "./";
+import { detectGeometry, classifyGeometry } from "./";
 
 console.time("completed in");
 
@@ -23,7 +23,7 @@ const onErrorExit = message => {
   process.exit(1);
 };
 
-validateGeometry(sides)
+detectGeometry(sides)
   .then((...args) => classifyGeometry(...args))
   .then(onSuccessExit)
   .catch(onErrorExit);
