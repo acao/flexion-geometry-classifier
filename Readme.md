@@ -34,6 +34,10 @@ classifier(sides)
   .catch(message => console.error(message));
 ```
 
+## WebApp
+
+The webapp was an afterthought last night, more a proof of concept for the universal library and is not to be evaluated as a progressive web app by any means
+
 ## Development
 
 `npm run build` builds the library output.
