@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Geometry Classifier</title>
+
+  </head>
+  <body class="container">
+    <section class="row">
+      <div id="input-wrapper" class="one-half column">
+        <div id="numerical-input">
+          <div><input type="number" /></div>
+          <div><input type="number" /></div>
+          <div><input type="number" /></div>
+        </div>
+        <button class="button-standard" onClick="main.addSide()" id="add-side">+</button>
+        <button class="button-standard" onClick="main.removeSide()" id="remove-side">-</button>
+        <button class="button-primary" onClick="main.classifyGeometryWeb()">Classify</button>
+      </div>
+      <div id="output-wrapper" class="one-half column">
+      </div>
+    </section>
+    <script type="text/javascript" src="dist/web.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" integrity="sha256-2YQRJMXD7pIAPHiXr0s+vlRWA7GYJEK0ARns7k2sbHY=" crossorigin="anonymous" />
+    <style>
+      body.container {
+        margin-top: 2em;
+      }
+      #output-wrapper {
+        padding: 1em;
+        border: 3px solid transparent;
+      }
+      #output-wrapper.success {
+        border-color: green;
+      }
+      #output-wrapper.error {
+        border-color: red;
+      }
+    </style>
+  </body>
+</html>
