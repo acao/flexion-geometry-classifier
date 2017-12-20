@@ -16,8 +16,11 @@ or
 
 ### CLI
 
-`geometry-cli 2.3 2.3 2.3`
-`this triangle is an equilateral`
+```
+$ geometry-cli 2.3 2.3 2.3
+this triangle is an equilateral
+finished in 2.34ms
+```
 
 ### Library
 
