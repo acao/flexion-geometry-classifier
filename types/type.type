@@ -1,0 +1,20 @@
+type Geometry = {
+  isValid: Function,
+  numSides: number,
+  types: Array<GeomType>
+};
+
+type GeomType = {
+  type: string,
+  validate: Function
+};
+
+type DetectionResult = {
+  geometryLabel: string,
+  sides: Array<number>
+};
+
+type ClassificationResult = {
+  geometryLabel: string,
+  type: string
+};

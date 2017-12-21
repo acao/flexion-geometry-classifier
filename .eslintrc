@@ -17,6 +17,7 @@
   "rules": {
     "no-console": "off",
     "strict": ["error", "global"],
-    "curly": "warn"
+    "curly": "warn",
+    'max-len': [ 'error', 100 ],
   }
 }

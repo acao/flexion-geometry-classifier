@@ -79,12 +79,27 @@ exports.addSide = addSide;
 exports.removeSide = removeSide;
 exports.handleSuccess = handleSuccess;
 exports.handleError = handleError;
+exports.setMessage = setMessage;
 
 var _ = __webpack_require__(1);
 
 var _utils = __webpack_require__(3);
 
-var resultsWrapper = document.getElementById("output-wrapper");
+var geometries = _interopRequireWildcard(__webpack_require__(2));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var messageContainer = document.getElementById("output-message");
+var polygonContainer = document.getElementById("output-polygon");
+
+var init = function init() {
+  addSide();
+  addSide();
+  addSide();
+  document.querySelector("#numerical-input input:first-child").focus(); // firstField.focus();
+};
+
+init();
 
 function classifyGeometryWeb() {
   console.time("completed in");
@@ -104,40 +119,48 @@ function classifyGeometryWeb() {
 function addSide() {
   var newSide = document.createElement("input");
   newSide.type = "number";
+  newSide.step = "0.01";
+  newSide.min = "0";
+  newSide.max = "10";
+  newSide.onkeyup = classifyGeometryWeb;
   var fieldWrapper = document.createElement("div");
   fieldWrapper.appendChild(newSide);
   document.getElementById("numerical-input").appendChild(fieldWrapper);
   newSide.focus();
+  classifyGeometryWeb();
 }
 
 function removeSide() {
   var input = document.getElementById("numerical-input");
-
-  if (input.lastChild.nodeName == "#text") {
-    input.removeChild(input.lastChild);
-    input.removeChild(input.lastChild);
-    return;
-  }
-
-  input.removeChild(input.lastChild);
-  return;
+  input.removeChild(document.querySelector("#numerical-input div:last-child"));
+  document.querySelector("#numerical-input div:last-child input").focus();
+  classifyGeometryWeb();
 }
 
 function handleSuccess(_ref) {
   var geometryLabel = _ref.geometryLabel,
-      type = _ref.type;
-  (0, _utils.logger)("This ".concat(geometryLabel, " is an ").concat(type));
-  resultsWrapper.innerText = "This ".concat(geometryLabel, " is ").concat(type);
-  resultsWrapper.classList.remove("error");
-  resultsWrapper.classList.add("success");
-  console.timeEnd("completed in");
+      type = _ref.type,
+      sides = _ref.sides;
+  var geom = geometries[geometryLabel];
+  var message = "This ".concat(geometryLabel, " is an ").concat(type);
+  (0, _utils.logger)(message);
+  setMessage(message, ["error", "success"]);
+
+  if (geom.draw) {
+    polygonContainer.innerHTML = geom.draw(sides);
+  }
 }
 
 function handleError(message) {
   (0, _utils.logger)(message);
-  resultsWrapper.innerText = message;
-  resultsWrapper.classList.add("error");
-  resultsWrapper.classList.remove("success");
+  setMessage(message, ["success", "error"]);
+  polygonContainer.innerHTML = "<div></div>";
+}
+
+function setMessage(message, toggle) {
+  messageContainer.innerText = message;
+  messageContainer.classList.remove(toggle[0]);
+  messageContainer.classList.add(toggle[1]);
   console.timeEnd("completed in");
 }
 
@@ -199,7 +222,8 @@ function classifyGeometry(_ref) {
       if (type.validate.apply(type, _toConsumableArray(sides))) {
         resolve({
           geometryLabel: geometryLabel,
-          type: type.type
+          type: type.type,
+          sides: sides
         });
       }
     }); // if it doesn't validate against a type, but is still valid
@@ -230,6 +254,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.triangle = void 0;
 // just for an easier shorthand
+var POLYGON_COLOR = "#33C3F0";
+
+var getTrianglePeaks = function getTrianglePeaks(scale, sides) {
+  var peakX = (scale * sides[1] * Math.sin(Math.PI / 2 - Math.acos((Math.pow(sides[0], 2) + Math.pow(sides[1], 2) - Math.pow(sides[2], 2)) / (2 * sides[0] * sides[1])))).toFixed(1);
+  var peakY = (scale * Math.sqrt(Math.pow(sides[1], 2) - Math.pow(peakX / scale, 2))).toFixed(1);
+  return {
+    peakX: peakX,
+    peakY: peakY
+  };
+};
+
 var triangle = {
   numSides: 3,
   isValid: function isValid(a, b, c) {
@@ -250,7 +285,16 @@ var triangle = {
     validate: function validate(a, b, c) {
       return a !== b && a !== c && b !== c;
     }
-  }]
+  }],
+  draw: function draw(sides) {
+    var scale = 50 / sides[0];
+
+    var _getTrianglePeaks = getTrianglePeaks(scale, sides),
+        peakX = _getTrianglePeaks.peakX,
+        peakY = _getTrianglePeaks.peakY;
+
+    return "<div>\n  <svg\n    height=\"".concat(peakY * 4, "\"\n    width=\"300\"\n  >\n    <polygon\n      points=\"0,0 200,0 ").concat(peakX * 4, ",").concat(peakY * 4, "\"\n      style=\"fill:").concat(POLYGON_COLOR, "; stroke:").concat(POLYGON_COLOR, "; stroke-width:1\"\n    />\n  </svg>\n  </div>").trim();
+  }
 }; // export const quadrilateral = {
 //   numSides: 4,
 //   ...

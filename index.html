@@ -9,16 +9,16 @@
     <section class="row">
       <div id="input-wrapper" class="one-half column">
         <div id="numerical-input">
-          <div><input type="number" /></div>
-          <div><input type="number" /></div>
-          <div><input type="number" /></div>
         </div>
         <button class="button-standard" onClick="main.addSide()" id="add-side">+</button>
         <button class="button-standard" onClick="main.removeSide()" id="remove-side">-</button>
         <button class="button-primary" onClick="main.classifyGeometryWeb()">Classify</button>
       </div>
       <div id="output-wrapper" class="one-half column">
+        <div id="output-message"></div>
+        <div id="output-polygon"></div>
       </div>
+
     </section>
     <script type="text/javascript" src="dist/web.js"></script>
     <style>
@@ -34,6 +34,9 @@
       }
       #output-wrapper.error {
         border-color: red;
+      }
+      #output-polygon {
+        margin: 20px 0px;
       }
     </style>
   </body>

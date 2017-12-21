@@ -1,6 +1,8 @@
 // @flow
 import * as geometries from "./lib/geometries";
 
+type Sides = Array<number>;
+
 type Geometry = {
   isValid: Function,
   numSides: number,
@@ -14,15 +16,16 @@ type GeomType = {
 
 type DetectionResult = {
   geometryLabel: string,
-  sides: Array<number>
+  sides: Sides
 };
 
 type ClassificationResult = {
   geometryLabel: string,
-  type: string
+  type: string,
+  sides: Sides
 };
 
-export function detectGeometry(sides: Array<number>): Promise<DetectionResult> {
+export function detectGeometry(sides: Sides): Promise<DetectionResult> {
   return new Promise((resolve, reject) => {
     if (!sides || !sides.length || sides.length < 2) {
       reject("not enough sides for a valid geometry!");
@@ -57,7 +60,7 @@ export function classifyGeometry({
 
     geom.types.map((type: GeomType) => {
       if (type.validate(...sides)) {
-        resolve({ geometryLabel, type: type.type });
+        resolve({ geometryLabel, type: type.type, sides });
       }
     });
     // if it doesn't validate against a type, but is still valid
