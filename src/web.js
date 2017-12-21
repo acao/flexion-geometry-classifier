@@ -33,6 +33,7 @@ export function addSide() {
   newSide.step = "0.01";
   newSide.min = "0";
   newSide.max = "10";
+  newSide.value = "1.0";
   newSide.onkeyup = classifyGeometryWeb;
   const fieldWrapper = document.createElement("div");
   fieldWrapper.appendChild(newSide);
