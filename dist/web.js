@@ -114,7 +114,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var messageContainer = document.getElementById("output-message");
 var polygonContainer = document.getElementById("output-polygon");
-var prevSides = [];
 
 var init = function init() {
   addSide();
