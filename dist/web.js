@@ -61,11 +61,34 @@ var main =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.POLYGON_COLOR = void 0;
+
+var _triangle = _interopRequireDefault(__webpack_require__(3));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var POLYGON_COLOR = "#33C3F0";
+exports.POLYGON_COLOR = POLYGON_COLOR;
+var _default = {
+  triangle: _triangle.default
+};
+exports.default = _default;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,16 +104,17 @@ exports.handleSuccess = handleSuccess;
 exports.handleError = handleError;
 exports.setMessage = setMessage;
 
-var _ = __webpack_require__(1);
+var _ = __webpack_require__(2);
 
-var _utils = __webpack_require__(3);
+var _utils = __webpack_require__(4);
 
-var geometries = _interopRequireWildcard(__webpack_require__(2));
+var _geometries = _interopRequireDefault(__webpack_require__(0));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var messageContainer = document.getElementById("output-message");
 var polygonContainer = document.getElementById("output-polygon");
+var prevSides = [];
 
 var init = function init() {
   addSide();
@@ -141,8 +165,8 @@ function handleSuccess(_ref) {
   var geometryLabel = _ref.geometryLabel,
       type = _ref.type,
       sides = _ref.sides;
-  var geom = geometries[geometryLabel];
-  var message = "This ".concat(geometryLabel, " is an ").concat(type);
+  var geom = _geometries.default[geometryLabel];
+  var message = "This ".concat(geometryLabel, " is ").concat(type);
   (0, _utils.logger)(message);
   setMessage(message, ["error", "success"]);
 
@@ -165,7 +189,7 @@ function setMessage(message, toggle) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -178,9 +202,9 @@ exports.detectGeometry = detectGeometry;
 exports.classifyGeometry = classifyGeometry;
 exports.default = _default;
 
-var geometries = _interopRequireWildcard(__webpack_require__(2));
+var _geometries = _interopRequireDefault(__webpack_require__(0));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -194,9 +218,9 @@ function detectGeometry(sides) {
       reject("invalid integer/float provided");
     }
 
-    for (var geometry in geometries) {
-      if (geometries.hasOwnProperty(geometry)) {
-        if (geometries[geometry].numSides === sides.length) {
+    for (var geometry in _geometries.default) {
+      if (_geometries.default.hasOwnProperty(geometry)) {
+        if (_geometries.default[geometry].numSides === sides.length) {
           resolve({
             geometryLabel: geometry,
             sides: sides
@@ -212,7 +236,7 @@ function detectGeometry(sides) {
 function classifyGeometry(_ref) {
   var geometryLabel = _ref.geometryLabel,
       sides = _ref.sides;
-  var geom = geometries[geometryLabel];
+  var geom = _geometries.default[geometryLabel];
   return new Promise(function (resolve, reject) {
     if (!geom.isValid.apply(geom, _toConsumableArray(sides))) {
       reject("not a valid ".concat(geometryLabel));
@@ -243,7 +267,7 @@ function _default(sides) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -252,9 +276,9 @@ function _default(sides) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.triangle = void 0;
-// just for an easier shorthand
-var POLYGON_COLOR = "#33C3F0";
+exports.default = exports.drawTriangle = exports.getTrianglePeaks = void 0;
+
+var _ = __webpack_require__(0);
 
 var getTrianglePeaks = function getTrianglePeaks(scale, sides) {
   var peakX = (scale * sides[1] * Math.sin(Math.PI / 2 - Math.acos((Math.pow(sides[0], 2) + Math.pow(sides[1], 2) - Math.pow(sides[2], 2)) / (2 * sides[0] * sides[1])))).toFixed(1);
@@ -265,8 +289,22 @@ var getTrianglePeaks = function getTrianglePeaks(scale, sides) {
   };
 };
 
-var triangle = {
+exports.getTrianglePeaks = getTrianglePeaks;
+
+var drawTriangle = function drawTriangle(sides) {
+  var scale = 50 / sides[0];
+
+  var _getTrianglePeaks = getTrianglePeaks(scale, sides),
+      peakX = _getTrianglePeaks.peakX,
+      peakY = _getTrianglePeaks.peakY;
+
+  return "<div>\n            <svg\n              height=\"".concat(peakY * 4, "\"\n              width=\"300\"\n            >\n              <polygon\n                points=\"0,0 200,0 ").concat(peakX * 4, ",").concat(peakY * 4, "\"\n                style=\"fill:").concat(_.POLYGON_COLOR, "; stroke:").concat(_.POLYGON_COLOR, "; stroke-width:1\"\n              />\n            </svg>\n            </div>\n          ").trim();
+};
+
+exports.drawTriangle = drawTriangle;
+var _default = {
   numSides: 3,
+  draw: drawTriangle,
   isValid: function isValid(a, b, c) {
     return a + b > c && a + c > b && b + c > a;
   },
@@ -285,25 +323,12 @@ var triangle = {
     validate: function validate(a, b, c) {
       return a !== b && a !== c && b !== c;
     }
-  }],
-  draw: function draw(sides) {
-    var scale = 50 / sides[0];
-
-    var _getTrianglePeaks = getTrianglePeaks(scale, sides),
-        peakX = _getTrianglePeaks.peakX,
-        peakY = _getTrianglePeaks.peakY;
-
-    return "<div>\n  <svg\n    height=\"".concat(peakY * 4, "\"\n    width=\"300\"\n  >\n    <polygon\n      points=\"0,0 200,0 ").concat(peakX * 4, ",").concat(peakY * 4, "\"\n      style=\"fill:").concat(POLYGON_COLOR, "; stroke:").concat(POLYGON_COLOR, "; stroke-width:1\"\n    />\n  </svg>\n  </div>").trim();
-  }
-}; // export const quadrilateral = {
-//   numSides: 4,
-//   ...
-// };
-
-exports.triangle = triangle;
+  }]
+};
+exports.default = _default;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 var logger = function logger(message) {

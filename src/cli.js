@@ -7,9 +7,7 @@ import { detectGeometry, classifyGeometry } from "./";
 console.time("completed in");
 
 let sides =
-  process.argv.slice(2).length > 2
-    ? process.argv.slice(2).map(side => parseFloat(side))
-    : false;
+  process.argv.slice(2).length > 2 ? process.argv.slice(2).map(side => parseFloat(side)) : false;
 
 const onSuccessExit = ({ geometryLabel, type }) => {
   logger(`this ${geometryLabel} is ${type}`, "success");

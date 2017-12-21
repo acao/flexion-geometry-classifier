@@ -1,11 +1,9 @@
 // @flow
-
+import { POLYGON_COLOR } from "./";
 // just for an easier shorthand
 type N = number;
 
-const POLYGON_COLOR = "#33C3F0";
-
-const getTrianglePeaks = (scale, sides) => {
+export const getTrianglePeaks = (scale, sides) => {
   const peakX: number = (
     scale *
     sides[1] *
@@ -23,8 +21,27 @@ const getTrianglePeaks = (scale, sides) => {
   return { peakX, peakY };
 };
 
-export const triangle = {
+export const drawTriangle = function(sides) {
+  var scale = 50 / sides[0];
+  const { peakX, peakY } = getTrianglePeaks(scale, sides);
+
+  return `<div>
+            <svg
+              height="${peakY * 4}"
+              width="300"
+            >
+              <polygon
+                points="0,0 200,0 ${peakX * 4},${peakY * 4}"
+                style="fill:${POLYGON_COLOR}; stroke:${POLYGON_COLOR}; stroke-width:1"
+              />
+            </svg>
+            </div>
+          `.trim();
+};
+
+export default {
   numSides: 3,
+  draw: drawTriangle,
   isValid: (a: N, b: N, c: N): boolean => a + b > c && a + c > b && b + c > a,
   types: [
     {
@@ -39,26 +56,5 @@ export const triangle = {
       type: "scalene",
       validate: (a: N, b: N, c: N): boolean => a !== b && a !== c && b !== c
     }
-  ],
-  draw: function(sides) {
-    var scale = 50 / sides[0];
-    const { peakX, peakY } = getTrianglePeaks(scale, sides);
-
-    return `<div>
-  <svg
-    height="${peakY * 4}"
-    width="300"
-  >
-    <polygon
-      points="0,0 200,0 ${peakX * 4},${peakY * 4}"
-      style="fill:${POLYGON_COLOR}; stroke:${POLYGON_COLOR}; stroke-width:1"
-    />
-  </svg>
-  </div>`.trim();
-  }
+  ]
 };
-
-// export const quadrilateral = {
-//   numSides: 4,
-//   ...
-// };

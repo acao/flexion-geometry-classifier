@@ -1,6 +1,6 @@
 import { detectGeometry, classifyGeometry } from "./";
 import { logger } from "./lib/utils";
-import * as geometries from "./lib/geometries";
+import geometries from "./geometries";
 
 import typeof { ClassificationResult } from "./";
 
@@ -52,7 +52,7 @@ type ToggleClass = "error" | "success";
 
 export function handleSuccess({ geometryLabel, type, sides }: ClassificationResult) {
   const geom = geometries[geometryLabel];
-  const message = `This ${geometryLabel} is an ${type}`;
+  const message = `This ${geometryLabel} is ${type}`;
   logger(message);
   setMessage(message, ["error", "success"]);
   if (geom.draw) {

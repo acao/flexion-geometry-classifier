@@ -7,9 +7,9 @@ exports.detectGeometry = detectGeometry;
 exports.classifyGeometry = classifyGeometry;
 exports.default = _default;
 
-var geometries = _interopRequireWildcard(require("./lib/geometries"));
+var _geometries = _interopRequireDefault(require("./geometries"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function detectGeometry(sides) {
   return new Promise((resolve, reject) => {
@@ -21,9 +21,9 @@ function detectGeometry(sides) {
       reject("invalid integer/float provided");
     }
 
-    for (var geometry in geometries) {
-      if (geometries.hasOwnProperty(geometry)) {
-        if (geometries[geometry].numSides === sides.length) {
+    for (var geometry in _geometries.default) {
+      if (_geometries.default.hasOwnProperty(geometry)) {
+        if (_geometries.default[geometry].numSides === sides.length) {
           resolve({
             geometryLabel: geometry,
             sides
@@ -40,7 +40,7 @@ function classifyGeometry({
   geometryLabel,
   sides
 }) {
-  const geom = geometries[geometryLabel];
+  const geom = _geometries.default[geometryLabel];
   return new Promise((resolve, reject) => {
     if (!geom.isValid(...sides)) {
       reject(`not a valid ${geometryLabel}`);
@@ -50,7 +50,8 @@ function classifyGeometry({
       if (type.validate(...sides)) {
         resolve({
           geometryLabel,
-          type: type.type
+          type: type.type,
+          sides
         });
       }
     }); // if it doesn't validate against a type, but is still valid

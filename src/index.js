@@ -1,5 +1,5 @@
 // @flow
-import * as geometries from "./lib/geometries";
+import geometries from "./geometries";
 
 type Sides = Array<number>;
 
@@ -42,9 +42,7 @@ export function detectGeometry(sides: Sides): Promise<DetectionResult> {
         }
       }
     }
-    reject(
-      `classifier does not exist for a geometry with ${sides.length} sides`
-    );
+    reject(`classifier does not exist for a geometry with ${sides.length} sides`);
   });
 }
 
