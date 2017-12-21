@@ -9,7 +9,7 @@ var _triangle = _interopRequireDefault(require("./triangle"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const POLYGON_COLOR = "#33C3F0";
+const POLYGON_COLOR = "#3273dc";
 exports.POLYGON_COLOR = POLYGON_COLOR;
 var _default = {
   triangle: _triangle.default
