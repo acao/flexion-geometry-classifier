@@ -50,8 +50,8 @@ export function addSide() {
 
 export function removeSide() {
   let input = document.getElementById("numerical-input");
-  input.removeChild(document.querySelector("#numerical-input div:last-child"));
-  document.querySelector("#numerical-input div:last-child input").focus();
+  input.removeChild(document.querySelector("#numerical-input div.field:last-child"));
+  document.querySelector("#numerical-input div.field:last-child input").focus();
   classifyGeometryWeb();
 }
 
