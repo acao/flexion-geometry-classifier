@@ -2,15 +2,15 @@
 
 ### CLI
 
-`npm i -g geometry-classifier`
+`npm i -g flexion-geometry-classifier`
 
 or
 
-`yarn add global geometry-classifier`
+`yarn add global flexion-geometry-classifier`
 
 ### Library
 
-`npm i -S geometry-classifier`
+`npm i -S flexion-geometry-classifier`
 
 ## Usage
 
@@ -27,12 +27,10 @@ finished in 2.34ms
 The library returns a promise.
 
 ```js
-import classifier from "geometry-classifier";
+import classifier from "flexion-geometry-classifier";
 classifier([2.2, 2.2, 2.2])
   .then(success =>
-    console.log(
-      `you have returned a ${success.geometryLabel} of type ${success.type}`
-    )
+    console.log(`you have returned a ${success.geometryLabel} of type ${success.type}`)
   )
   .catch(message => console.error(message));
 ```
