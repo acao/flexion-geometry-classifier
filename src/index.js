@@ -27,18 +27,18 @@ type ClassificationResult = {
 
 export function detectGeometry(sides: Sides): Promise<DetectionResult> {
   return new Promise((resolve, reject) => {
-    if (!sides || !sides.length || sides.length < 2) {
+    if (!sides || !sides.length || sides.length < 3) {
       reject("not enough sides for a valid geometry!");
     }
 
-    if (sides.includes(NaN)) {
+    if (sides.some(isNaN)) {
       reject("invalid integer/float provided");
     }
 
-    for (var geometry in geometries) {
-      if (geometries.hasOwnProperty(geometry)) {
-        if (geometries[geometry].numSides === sides.length) {
-          resolve({ geometryLabel: geometry, sides });
+    for (var geometryLabel in geometries) {
+      if (geometries.hasOwnProperty(geometryLabel)) {
+        if (geometries[geometryLabel].numSides === sides.length) {
+          resolve({ geometryLabel, sides });
         }
       }
     }

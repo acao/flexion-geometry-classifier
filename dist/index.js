@@ -13,19 +13,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function detectGeometry(sides) {
   return new Promise((resolve, reject) => {
-    if (!sides || !sides.length || sides.length < 2) {
+    if (!sides || !sides.length || sides.length < 3) {
       reject("not enough sides for a valid geometry!");
     }
 
-    if (sides.includes(NaN)) {
+    if (sides.some(isNaN)) {
       reject("invalid integer/float provided");
     }
 
-    for (var geometry in _geometries.default) {
-      if (_geometries.default.hasOwnProperty(geometry)) {
-        if (_geometries.default[geometry].numSides === sides.length) {
+    for (var geometryLabel in _geometries.default) {
+      if (_geometries.default.hasOwnProperty(geometryLabel)) {
+        if (_geometries.default[geometryLabel].numSides === sides.length) {
           resolve({
-            geometryLabel: geometry,
+            geometryLabel,
             sides
           });
         }

@@ -3,7 +3,8 @@ import { POLYGON_COLOR } from "./";
 // just for an easier shorthand
 type N = number;
 
-export const getTrianglePeaks = (scale, sides) => {
+// Borrowed this from an example somewhere
+export const getTrianglePeaks = (scale: number, sides: Array<number>) => {
   const peakX: number = (
     scale *
     sides[1] *
@@ -21,7 +22,7 @@ export const getTrianglePeaks = (scale, sides) => {
   return { peakX, peakY };
 };
 
-export const drawTriangle = function(sides) {
+export const drawTriangle = function(sides: Array<number>) {
   var scale = 50 / sides[0];
   const { peakX, peakY } = getTrianglePeaks(scale, sides);
 
