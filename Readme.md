@@ -1,3 +1,9 @@
+[![npm version](https://badge.fury.io/js/flexion-geometry-classifier.svg)](https://badge.fury.io/js/flexion-geometry-classifier)
+[![Build Status](https://travis-ci.org/acao/flexion-geometry-classifier.svg?branch=master)](https://travis-ci.org/acao/flexion-geometry-classifier)
+[![Coverage Status](https://coveralls.io/repos/github/acao/flexion-geometry-classifier/badge.svg?branch=master)](https://coveralls.io/github/acao/flexion-geometry-classifier?branch=master)
+
+A simple tool for classifying geometries
+
 ## Installation
 
 ### CLI
