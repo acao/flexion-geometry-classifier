@@ -7,6 +7,7 @@
     "lint": "eslint src",
     "flow": "flow",
     "test": "jest __tests__/unit --coverage && cat ./coverage/lcov.info | coveralls",
+    "test-e2e": "jest __tests__/e2e",
     "build": "babel src -d dist",
     "build-web": "webpack",
     "dev": "webpack --watch"
