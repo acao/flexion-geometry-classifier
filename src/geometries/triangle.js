@@ -5,20 +5,22 @@ type N = number;
 
 // Borrowed this from an example somewhere
 export const getTrianglePeaks = (scale: number, sides: Array<number>) => {
-  const peakX: number = (
-    scale *
-    sides[1] *
-    Math.sin(
-      Math.PI / 2 -
-        Math.acos(
-          (Math.pow(sides[0], 2) + Math.pow(sides[1], 2) - Math.pow(sides[2], 2)) /
-            (2 * sides[0] * sides[1])
-        )
-    )
-  ).toFixed(1);
-  const peakY: number = (
-    scale * Math.sqrt(Math.pow(sides[1], 2) - Math.pow(peakX / scale, 2))
-  ).toFixed(1);
+  const peakX: number = parseFloat(
+    (
+      scale *
+      sides[1] *
+      Math.sin(
+        Math.PI / 2 -
+          Math.acos(
+            (Math.pow(sides[0], 2) + Math.pow(sides[1], 2) - Math.pow(sides[2], 2)) /
+              (2 * sides[0] * sides[1])
+          )
+      )
+    ).toFixed(1)
+  );
+  const peakY: number = parseFloat(
+    (scale * Math.sqrt(Math.pow(sides[1], 2) - Math.pow(peakX / scale, 2))).toFixed(1)
+  );
   return { peakX, peakY };
 };
 
